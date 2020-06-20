@@ -2,7 +2,7 @@
 """
 Created on Fri Jun 19 22:06:08 2020
 
-@author: Pierre-Marie
+@author: Pierre-Marie EDLINGER
 """
 
 def getScanner(XXX, num, xVille, xSite, xContact, xRD, xRA, xDate):
