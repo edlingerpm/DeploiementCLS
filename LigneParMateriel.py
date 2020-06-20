@@ -6,15 +6,23 @@ Created on Fri Jun 19 22:06:08 2020
 """
 
 def getScanner(XXX, num, xVille, xSite, xContact, xRD, xRA, xDate):
-    texte = ""
-    texte = texte + ";scannercais"+XXX+"fm"+num+";Scanner CLS N°"+num
-    texte = texte + " de F0"+XXX
-    texte = texte + ";Actif (en parc);\\\\match-supermarket.com\\DSI\\DSI_Photos_Mag_FR\\Photos\\France\\"
-    texte = texte + XXX+";Production;;France;Caisses;Magellan;Bi-optique 9800i;;;Physique;France;"
-    texte = texte + xVille+";F0"+XXX+";"+xSite+";;;"+xContact+";;;5 Normal;"
-    texte = texte + xRD+";"+xRA+";Match;France;;"+xDate
-    texte = texte + ";;;PEBIX;;;;;;;;;;;;;;;;;;Externe;PEBIX;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;"
-    return texte
+    # texte = ""
+    # texte = texte + ";scannercais"+XXX+"fm"+num+";Scanner CLS N°"+num
+    # texte = texte + " de F0"+XXX
+    # texte = texte + ";Actif (en parc);\\\\match-supermarket.com\\DSI\\DSI_Photos_Mag_FR\\Photos\\France\\"
+    # texte = texte + XXX+";Production;;France;Caisses;Magellan;Bi-optique 9800i;;;Physique;France;"
+    # texte = texte + xVille+";F0"+XXX+";"+xSite+";;;"+xContact+";;;5 Normal;"
+    # texte = texte + xRD+";"+xRA+";Match;France;;"+xDate
+    # texte = texte + ";;;PEBIX;;;;;;;;;;;;;;;;;;Externe;PEBIX;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;"
+    # return texte
+    
+    return  ";scannercais"+XXX+"fm"+num+";Scanner CLS N°"+num+" "
+    "de F0"+XXX+ ";Actif (en parc);\\\\match-supermarket.com\\DSI\\DSI_P"
+    "hotos_Mag_FR\\Photos\\France\\" + XXX+";Production;;France;Caisses;Ma"
+    "gellan;Bi-optique 9800i;;;Physique;France;"+ xVille+";F"
+    "0"+XXX+";"+xSite+";;;"+xContact+";;;5 Normal;" + xRD+";"+xRA+";Matc"
+    "h;France;;"+xDate + ";;;PEBIX;;;;;;;;;;;;;;;;;;Exte"
+    "rne;PEBIX;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;"
     
 def getMonnayeur(XXX, num, numCLS1, numCLS2, xIP, xVille, xSite, xContact, xRD, xRA, xDate):
     texte = ""

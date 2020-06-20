@@ -6,7 +6,10 @@ Created on Mon Feb 24 2020
 """
 import os
 import tkinter
+
+from tkinter import *
 from tkinter import messagebox
+from tkinter import filedialog
 
 #création d'un répertoire + nommage du fichier final
 def creationRepertoire(nomCompletRepertoire):
@@ -44,3 +47,57 @@ def getRensDansFichier(nomFichier):
             matrice.append (l)             # on ajoute la ligne à la matrice
     return matrice
     
+
+def getFichier(repInit = "./", 
+               titre = "Choix d'un fichier", 
+               typeExtensions = {("Fichiers ODS","*.ods"),("Fichiers CSV","*.csv"),("Tous","*.*")}):
+    """ Fenêtre pour choisir un fichier
+        ENTREE : - le répertoire initial où chercher ex: "D:/"
+                 - le titre de la fenêtre ex : "Choix du fichier"
+                 - les extensions des fichiers à rechercher ex: {("Fichier ODS","*.ods"),("Fichier CSV","*.csv"),("Tous","*.*")}
+        SORTIE : chemin complet du fichier selectionné ou chaine vide si aucun n'est selectionné """
+        
+    fen = Tk()
+    
+    fen.withdraw()
+    fen.filename =  filedialog.askopenfilename(initialdir = repInit,
+                                               title = titre,
+                                               filetypes = typeExtensions
+                                               )
+    fichierChoisi = fen.filename
+    fen.destroy
+    return fichierChoisi
+
+def getRepertoire(repInit = "./", titre = "Choix d'un répertoire"):
+    """ Fenêtre pour choisir un répertoire
+        ENTREE : - le répertoire initial où chercher ex: "D:/"
+                 - le titre de la fenêtre ex : "Choix du fichier"
+        SORTIE : chemin complet du répertoire selectionné ou chaine vide si aucun n'est selectionné """
+        
+    fen = Tk()
+    fen.withdraw()
+    fen.filename =  filedialog.askdirectory(initialdir = "D:/",
+                                            title = "Choix du répertoire")
+    repChoisi = fen.filename
+    fen.destroy
+    return repChoisi
+
+def getOuEnregistrerFichier(repInit = "./", 
+                            titre = "Enregistrer un fichier", 
+                            typeExtensions = {("Fichiers ODS","*.ods"),("Fichiers CSV","*.csv"),("Tous","*.*")}):
+    """ Fenêtre pour choisir où enregistrer un fichier et demande de confirmation s'il existe déjà
+        ENTREE : - le répertoire initial où chercher ex: "D:/"
+                 - le titre de la fenêtre ex : "Choix du fichier"
+                 - les extensions à appliquer ex: {("Fichier ODS","*.ods"),("Fichier CSV","*.csv"),("Tous","*.*")}
+        SORTIE : chemin complet du répertoire selectionné ou chaine vide si aucun n'est selectionné """
+        
+    fen = Tk()
+    fen.withdraw()
+    fen.filename =  filedialog.asksaveasfilename(initialdir = repInit,
+                                                 title = titre,
+                                                 filetypes = typeExtensions,
+                                                 defaultextension=True)
+    #,addextension = True
+    repChoisi = fen.filename
+    fen.destroy
+    return repChoisi
