@@ -24,7 +24,13 @@ NBMONNAYEUR = ""
 NBIMPRSTICKERS = ""
 debutNouveauFichier = True
 
-
+def CreerFichierTravail(Fichier): 
+    fichiertravail = open (Fichier, "w")    # Création et ouverture du fichier à remplir
+    
+    #écriture de la 1ère ligne des noms de colonne au format attendu dans le programme
+    FF.ecritTexteDansFichier(fichiertravail, LM.getTexteFichierTravail())
+    fichiertravail.close ()  # fermeture du fichier
+    
 def enteteColonnes(fichier):
     """ Insère la première ligne du fichier résultat
         ENTREE : rien
@@ -61,105 +67,110 @@ def enteteColonnes(fichier):
 
 
 ### Début programme **********************************************************
-    
-# on remplit une matrice avec toutes les lignes du fichier de travail
-maMatrice = FF.getRensDansFichier("FichierDeTravail.csv")
 
-# pour toutes les lignes de la matrice
-for ligneFichier in range (1, len(maMatrice)):
+def LanceCreationFichierCLS(fichierTravail, RepResultat):
+    global debutNouveauFichier
     
-    # s'il ne s'agit pas d'une ligne vide
-    if maMatrice[ligneFichier][0] != "" :
+    # on remplit une matrice avec toutes les lignes du fichier de travail
+    maMatrice = FF.getRensDansFichier(fichierTravail)
+    
+    # pour toutes les lignes de la matrice
+    for ligneFichier in range (1, len(maMatrice)):
         
-        #si on est au début d'un nouveau fichier
-        if debutNouveauFichier == True :
-            # on indique que l'on ne sera plus à la création d'un nouveau fichier
-            debutNouveauFichier = False
-            # on crée et ouvre un nouveau fichier qui portera
-            #le numéro du 1er magasin à traiter
-            fichierResultat = open (NOMFICHIERRESULTAT+maMatrice[ligneFichier][0]+EXTENSIONFICHIER, "w")    # Création et ouverture du fichier rempli
+        # s'il ne s'agit pas d'une ligne vide
+        if maMatrice[ligneFichier][0] != "" :
             
-            # on rempli l'entête des colonnes
-            enteteColonnes(fichierResultat)
-        # else:
-        #     #on rajoute au fichier
-        #     fichierResultat = open (NOMFICHIERRESULTAT+maMatrice[ligneFichier][0]+EXTENSIONFICHIER, "a")
-        
-        #On initialise tous les paramètres
-        XXX = maMatrice[ligneFichier][0] 
-        xIP = maMatrice[ligneFichier][1]
-        xVille = maMatrice[ligneFichier][2]
-        xSite = maMatrice[ligneFichier][3]
-        xContact = maMatrice[ligneFichier][4] 
-        xRD = maMatrice[ligneFichier][5]
-        xRA = maMatrice[ligneFichier][6]
-        xDate = maMatrice[ligneFichier][7]
-        NBCLS = maMatrice[ligneFichier][8]
-        NBMONNAYEUR = maMatrice[ligneFichier][9]
-        NBIMPRSTICKERS = maMatrice[ligneFichier][10]
-        
-        # on s'occupe ici de chaque CLS et de tous leurs matériels
-        for i in range(int(NBCLS)) :
-            numero = 21+i # le numéro des CLS commence toujours par 21
+            #si on est au début d'un nouveau fichier
+            if debutNouveauFichier == True :
+                # on indique que l'on ne sera plus à la création d'un nouveau fichier
+                debutNouveauFichier = False
+                # on crée et ouvre un nouveau fichier qui portera
+                #le numéro du 1er magasin à traiter
+                fichierResultat = open (RepResultat+"/"+NOMFICHIERRESULTAT+maMatrice[ligneFichier][0]+EXTENSIONFICHIER, "w")    # Création et ouverture du fichier rempli
+                
+                # on rempli l'entête des colonnes
+                enteteColonnes(fichierResultat)
+            # else:
+            #     #on rajoute au fichier
+            #     fichierResultat = open (RepResultat+NOMFICHIERRESULTAT+maMatrice[ligneFichier][0]+EXTENSIONFICHIER, "a")
             
-            #UC dans CLS
-            FF.ecritTexteDansFichier(fichierResultat, 
-                                     LM.getCLS(XXX, str(numero), xIP, xVille, xSite, 
-                                               xContact, xRD, xRA, xDate))
-            #Scanners
-            FF.ecritTexteDansFichier(fichierResultat, 
-                                     LM.getScanner(XXX, str(numero), xVille, xSite, 
+            #On initialise tous les paramètres
+            XXX = maMatrice[ligneFichier][0] 
+            xIP = maMatrice[ligneFichier][1]
+            xVille = maMatrice[ligneFichier][2]
+            xSite = maMatrice[ligneFichier][3]
+            xContact = maMatrice[ligneFichier][4] 
+            xRD = maMatrice[ligneFichier][5]
+            xRA = maMatrice[ligneFichier][6]
+            xDate = maMatrice[ligneFichier][7]
+            NBCLS = maMatrice[ligneFichier][8]
+            NBMONNAYEUR = maMatrice[ligneFichier][9]
+            NBIMPRSTICKERS = maMatrice[ligneFichier][10]
+            
+            # on s'occupe ici de chaque CLS et de tous leurs matériels
+            for i in range(int(NBCLS)) :
+                numero = 21+i # le numéro des CLS commence toujours par 21
+                
+                #UC dans CLS
+                FF.ecritTexteDansFichier(fichierResultat, 
+                                         LM.getCLS(XXX, str(numero), xIP, xVille, xSite, 
                                                    xContact, xRD, xRA, xDate))
-            #Imprimantes M30
-            FF.ecritTexteDansFichier(fichierResultat, 
-                                     LM.getImprimanteM30(XXX, str(numero), xVille, 
-                                                        xSite, xContact, xRD, 
-                                                        xRA, xDate))
-        
-            #Mâts
-            FF.ecritTexteDansFichier(fichierResultat, 
-                                     LM.getMat(XXX, str(numero), xVille, xSite, 
-                                               xContact, xRD, xRA, xDate))
+                #Scanners
+                FF.ecritTexteDansFichier(fichierResultat, 
+                                         LM.getScanner(XXX, str(numero), xVille, xSite, 
+                                                       xContact, xRD, xRA, xDate))
+                #Imprimantes M30
+                FF.ecritTexteDansFichier(fichierResultat, 
+                                         LM.getImprimanteM30(XXX, str(numero), xVille, 
+                                                            xSite, xContact, xRD, 
+                                                            xRA, xDate))
             
-            #Balances
-            FF.ecritTexteDansFichier(fichierResultat, 
-                                     LM.getBalance(XXX, str(numero), xVille, xSite, 
-                                               xContact, xRD, xRA, xDate))
-                             
-            #Ecrans
-            FF.ecritTexteDansFichier(fichierResultat, 
-                                     LM.getEcran(XXX, str(numero), xVille, xSite, 
-                                               xContact, xRD, xRA, xDate))
-        
-        #Monnayeurs
-        numCLS = 21 # sert à déterminer entre quelles CLS sont placés les monnayeurs
-        for i in range(int(NBMONNAYEUR)) :
-            numero = 45+i
-            numCLS1 = numCLS
-            numCLS2 = numCLS1 + 1
-            FF.ecritTexteDansFichier(fichierResultat, 
-                                     LM.getMonnayeur(XXX, str(numero), 
-                                                     str(numCLS1), str(numCLS2), 
-                                                     xIP, xVille, xSite, 
-                                                     xContact, xRD, xRA, xDate))
-            numCLS = numCLS2 + 1
-        
-        #Imprimantes pour les stickers
-        for i in range(int(NBIMPRSTICKERS)) :
-            numero = 1+i
-            FF.ecritTexteDansFichier(fichierResultat, 
-                                     LM.getImprimanteStickers(XXX, str(numero), 
-                                                              xVille, xSite, 
-                                                              xContact, xRD, 
-                                                              xRA, xDate))    
+                #Mâts
+                FF.ecritTexteDansFichier(fichierResultat, 
+                                         LM.getMat(XXX, str(numero), xVille, xSite, 
+                                                   xContact, xRD, xRA, xDate))
+                
+                #Balances
+                FF.ecritTexteDansFichier(fichierResultat, 
+                                         LM.getBalance(XXX, str(numero), xVille, xSite, 
+                                                   xContact, xRD, xRA, xDate))
+                                 
+                #Ecrans
+                FF.ecritTexteDansFichier(fichierResultat, 
+                                         LM.getEcran(XXX, str(numero), xVille, xSite, 
+                                                   xContact, xRD, xRA, xDate))
             
-    else : # si la 1ère cellule de la ligne n'est pas vide
-        # on indique que l'on ne sera plus à la création d'un nouveau fichier
-        debutNouveauFichier = True
-        fichierResultat.close ()  # fermeture du fichier
+            #Monnayeurs
+            numCLS = 21 # sert à déterminer entre quelles CLS sont placés les monnayeurs
+            for i in range(int(NBMONNAYEUR)) :
+                numero = 45+i
+                numCLS1 = numCLS
+                numCLS2 = numCLS1 + 1
+                FF.ecritTexteDansFichier(fichierResultat, 
+                                         LM.getMonnayeur(XXX, str(numero), 
+                                                         str(numCLS1), str(numCLS2), 
+                                                         xIP, xVille, xSite, 
+                                                         xContact, xRD, xRA, xDate))
+                numCLS = numCLS2 + 1
+            
+            #Imprimantes pour les stickers
+            for i in range(int(NBIMPRSTICKERS)) :
+                numero = 1+i
+                FF.ecritTexteDansFichier(fichierResultat, 
+                                         LM.getImprimanteStickers(XXX, str(numero), 
+                                                                  xVille, xSite, 
+                                                                  xContact, xRD, 
+                                                                  xRA, xDate))    
+                
+        else : # si la 1ère cellule de la ligne n'est pas vide
+            # on indique que l'on ne sera plus à la création d'un nouveau fichier
+            debutNouveauFichier = True
+            fichierResultat.close ()  # fermeture du fichier
+        
+        # Si on a atteind la fin du fichier
+        if ligneFichier == len(maMatrice)-1 :  
+            fichierResultat.close ()  # fermeture du fichier
+            
+    FF.messageInfo("Succès", "L'opération s'est déroulée avec succès.")
     
-    # Si on a atteind la fin du fichier
-    if ligneFichier == len(maMatrice)-1 :  
-        fichierResultat.close ()  # fermeture du fichier
-
-### Fin programme **********************************************************
+    ### Fin programme **********************************************************

@@ -102,3 +102,7 @@ def getImprimanteStickers(XXX, num, xVille, xSite, xContact, xRD, xRA, xDate):
     texte = texte + ";;;BEARCOD;;;;;;;;;;;;;;;;;;Externe;BEARCOD;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;"
     return texte
 
+def getTexteFichierTravail():
+    return "Numéro du magasin;IP Magasin;Nom de la ville;Nom du site;Contact sur le site;Responsable D;Responsable A;Date de mise à jour;Nbr CLS;Nbr Monnayeurs;Nbr Imprimantes Stickers"
+    
+    
