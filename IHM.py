@@ -2,7 +2,7 @@
 """
 Created on Sat Jun 20 18:37:06 2020
 
-@author: Pierre-Marie EDLINGER
+@author: Pierre-Marie EDLINGER test
 """
 
 from tkinter import *
