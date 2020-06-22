@@ -29,27 +29,35 @@ def fermeTout():
     fenPrincipale.quit()
 
 def creerFichierModele():
-    cheminFic = ""
-    cheminFic = FF.getOuEnregistrerFichier()
-    if cheminFic != "":
-        Prog.CreerFichierTravail(FF.getOuEnregistrerFichier())
+    try :
+        cheminFic = ""
+        cheminFic = FF.getOuEnregistrerFichier()
+        if cheminFic != "":
+            Prog.CreerFichierTravail(cheminFic)
+            FF.messageInfo("Succès", "L'opération s'est déroulée avec succès.")
+    except :
+        FF.messageWarning("Erreur", "Une erreur est survenue lors de la création du fichier modèle...")
 
 def creerFichiersCLS():
-    if (varNomFicTravail.get() == ""):
-        FF.messageWarning("Renseignements manquants", "Choisissez le fichier source.")
-        choixFicDeTravail()
-    else :
-        if FF.verifieExistanceFichier(varNomFicTravail.get()):
-            if (varNomRep.get() == ""):
-                FF.messageWarning("Renseignements manquants", "Choisissez un répertoire où placer le(s) fichier(s) à importer dans IBM Lotus.")
-                choixRepFinal()
-            else:
-                if FF.verifieExistanceRepertoire(varNomRep.get()):
-                    Prog.LanceCreationFichierCLS(varNomFicTravail.get(), varNomRep.get())
-                else:
-                    choixRepFinal()
-        else:
+    try:
+        if (varNomFicTravail.get() == ""):
+            FF.messageWarning("Renseignements manquants", "Choisissez le fichier source.")
             choixFicDeTravail()
+        else :
+            if FF.verifieExistanceFichier(varNomFicTravail.get()):
+                if (varNomRep.get() == ""):
+                    FF.messageWarning("Renseignements manquants", "Choisissez un répertoire où placer le(s) fichier(s) à importer dans IBM Lotus.")
+                    choixRepFinal()
+                else:
+                    if FF.verifieExistanceRepertoire(varNomRep.get()):
+                        Prog.LanceCreationFichierCLS(varNomFicTravail.get(), varNomRep.get())
+                        #FF.messageInfo("Succès", "L'opération s'est déroulée avec succès.")
+                    else:
+                        choixRepFinal()
+            else:
+                choixFicDeTravail()
+    except :
+        FF.messageWarning("Erreur", "Une erreur est survenue lors de la création du ou des fichier(s) à importer...")
 
 # def pointeur(event):
 #     print( "Clic détecté en X =" + str(event.x) +\
