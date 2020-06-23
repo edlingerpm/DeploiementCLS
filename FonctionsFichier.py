@@ -74,7 +74,7 @@ def messageInfo(titre = "Titre", texte = "Information"):
     askretrycancel ()
 
 """
-
+    
 def getRensDansFichier(nomFichier):
     matrice = []                            # création d'une liste vide,
     with open (nomFichier, "r") as fichier:  # ouverture du fichier en mode lecture

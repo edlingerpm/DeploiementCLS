@@ -59,6 +59,17 @@ def creerFichiersCLS():
     except :
         FF.messageWarning("Erreur", "Une erreur est survenue lors de la création du ou des fichier(s) à importer...")
 
+def afficheInfos():
+    global fenPrincipale
+    texte = "Penser à ouvrir le(s) fichier(s) résultat(s) avec OpenOffice puis enregistrez les au format '.ods' avant de les importer.\nLe code source de cette application est disponible sur: https://github.com/edlingerpm/DeploiementCLS\n(copié dans le presse papier)."
+    try :
+        fenPrincipale.clipboard_clear()
+        fenPrincipale.clipboard_append("https://github.com/edlingerpm/DeploiementCLS")
+        FF.messageInfo("Information importante", texte)
+    except :
+        print("Erreur!!!!")
+        None
+
 # def pointeur(event):
 #     print( "Clic détecté en X =" + str(event.x) +\
 #                             ", Y =" + str(event.y))
@@ -71,15 +82,14 @@ fenPrincipale.title("Création du fichier d'importation dans IBM Lotus")
 fenPrincipale.geometry("650x130")
 # fenPrincipale.bind("<Button-1>", pointeur) # Button-1 --> clic gauche; Button-2 --> clic molette; Button-3 --> clic droit
 fenPrincipale.resizable(False, False)
-try:
+
+try: #sert à éviter un message d'erreur si le fichier icone n'existe pas
     fenPrincipale.iconbitmap('icone.ico')
 except : None
-"""
-#Pour changer l'icone'
-fenPrincipale.iconbitmap("questhead")
-"""
+
 GAUCHE = 10
 LARGEURBOUTONS = 25
+LIGNEDUBAS = 100
 
 # création des widgets "enfants" :
 # can1 = Canvas(fen1,bg='dark grey',height=250, width=250)
@@ -119,16 +129,19 @@ btnFicTravail.place(x=620, y= 70)
 #*********************************************************
 
 btnCreerFicTravail = Button(fenPrincipale, text='Créer un modèle', width =LARGEURBOUTONS, command=creerFichierModele)
-btnCreerFicTravail.place(x=GAUCHE, y= 100)
+btnCreerFicTravail.place(x=GAUCHE, y= LIGNEDUBAS)
 
 btnCreerFichierCLS = Button(fenPrincipale, 
                             text='Créer le(s) fichier(s) à importer', 
                             width =LARGEURBOUTONS, 
                             command=creerFichiersCLS)
-btnCreerFichierCLS.place(x=200, y= 100)
+btnCreerFichierCLS.place(x=200, y= LIGNEDUBAS)
 
 btnQuit = Button(fenPrincipale,text='Quitter', width =LARGEURBOUTONS, command=fermeTout)
-btnQuit.place(x=400, y= 100)
+btnQuit.place(x=400, y= LIGNEDUBAS)
+
+btnInfo = Button(fenPrincipale,text='?', width =3, command=afficheInfos)
+btnInfo.place(x=600, y= LIGNEDUBAS)
 
 # démarrage du réceptionnaire d'évènements (boucle principale) :
 fenPrincipale.mainloop()
