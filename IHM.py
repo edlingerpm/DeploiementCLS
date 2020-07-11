@@ -72,8 +72,6 @@ def afficheInfos():
         print("Erreur!!!!")
         None
 
-<<<<<<< Updated upstream
-=======
 def testModif():
     global tableau
     
@@ -91,7 +89,6 @@ def testModif():
     else:
         choixFicDeTravail()
 
->>>>>>> Stashed changes
 # def pointeur(event):
 #     print( "Clic détecté en X =" + str(event.x) +\
 #                             ", Y =" + str(event.y))
@@ -102,10 +99,9 @@ def testModif():
 fenPrincipale = Tk()
 fenPrincipale.title("Création du fichier d'importation dans IBM Lotus")
 fenPrincipale.geometry("650x130")
-<<<<<<< Updated upstream
-=======
+
 # fenPrincipale.geometry("650x200")
->>>>>>> Stashed changes
+
 # fenPrincipale.bind("<Button-1>", pointeur) # Button-1 --> clic gauche; Button-2 --> clic molette; Button-3 --> clic droit
 # fenPrincipale.resizable(False, False)
 
@@ -169,8 +165,7 @@ btnQuit.place(x=400, y= LIGNEDUBAS)
 btnInfo = Button(fenPrincipale,text='?', width =3, command=afficheInfos)
 btnInfo.place(x=600, y= LIGNEDUBAS)
 
-<<<<<<< Updated upstream
-=======
+
 # btnModif = Button(fenPrincipale,text='Test', width =5, command=testModif)
 # btnModif.place(x=GAUCHE, y= LIGNEDUBAS+30)
 
@@ -188,7 +183,7 @@ btnInfo.place(x=600, y= LIGNEDUBAS)
 # tableau.set_property("editable", True)
 # tableau.editable = True
 
->>>>>>> Stashed changes
+
 # démarrage du réceptionnaire d'évènements (boucle principale) :
 fenPrincipale.mainloop()
 
