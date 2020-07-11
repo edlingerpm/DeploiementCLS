@@ -6,6 +6,8 @@ Created on Sat Jun 20 18:37:06 2020
 """
 
 from tkinter import *
+from tkinter.ttk import *
+
 import ProgCreationFichierCLS as Prog
 import FonctionsFichier as FF
 
@@ -70,6 +72,26 @@ def afficheInfos():
         print("Erreur!!!!")
         None
 
+<<<<<<< Updated upstream
+=======
+def testModif():
+    global tableau
+    
+    if FF.verifieExistanceFichier(varNomFicTravail.get()):
+        # try :
+        maMatrice = FF.getRensDansFichierExportComplet(varNomFicTravail.get())
+        # print(len(maMatrice))
+        for i in range(0, len(maMatrice)) :
+            # print(maMatrice[i][0])
+            tableau.insert('', 'end', iid=maMatrice[i][0], values=(maMatrice[i][1], maMatrice[i][2], maMatrice[i][3]))
+            tableau.update
+        # except :
+        #     print("Erreur testModif!!!!")
+        #     None
+    else:
+        choixFicDeTravail()
+
+>>>>>>> Stashed changes
 # def pointeur(event):
 #     print( "Clic détecté en X =" + str(event.x) +\
 #                             ", Y =" + str(event.y))
@@ -80,8 +102,12 @@ def afficheInfos():
 fenPrincipale = Tk()
 fenPrincipale.title("Création du fichier d'importation dans IBM Lotus")
 fenPrincipale.geometry("650x130")
+<<<<<<< Updated upstream
+=======
+# fenPrincipale.geometry("650x200")
+>>>>>>> Stashed changes
 # fenPrincipale.bind("<Button-1>", pointeur) # Button-1 --> clic gauche; Button-2 --> clic molette; Button-3 --> clic droit
-fenPrincipale.resizable(False, False)
+# fenPrincipale.resizable(False, False)
 
 try: #sert à éviter un message d'erreur si le fichier icone n'existe pas
     fenPrincipale.iconbitmap('icone.ico')
@@ -99,17 +125,17 @@ LIGNEDUBAS = 100
 # ---- Gestion de la zone "où enregistrer les fichiers"
 # ---- Label
 lblRep1 = Label(fenPrincipale, text = 'Choix du répertoire où enregistrer les fichiers de travail :')
-lblRep1.place(x=GAUCHE, y = 10)
+lblRep1.place(x=GAUCHE, y = 5)
 
 # ---- zone de texte 
 varNomRep = StringVar()
 entr2 = Entry(fenPrincipale, textvariable = varNomRep, width =100)
 varNomRep.set("")
-entr2.place(x=GAUCHE, y= 30)
+entr2.place(x=GAUCHE, y= 25)
 
 # ---- Bouton ------------------
 btnChoixRep = Button(fenPrincipale, text='...', width =2, command=choixRepFinal)
-btnChoixRep.place(x=620, y= 30)
+btnChoixRep.place(x=620, y= 25)
 #*********************************************************
 
 # ---- Gestion de la zone "fichier de travail"
@@ -133,7 +159,7 @@ btnCreerFicTravail.place(x=GAUCHE, y= LIGNEDUBAS)
 
 btnCreerFichierCLS = Button(fenPrincipale, 
                             text='Créer le(s) fichier(s) à importer', 
-                            width =LARGEURBOUTONS, 
+                            width =LARGEURBOUTONS + 5, 
                             command=creerFichiersCLS)
 btnCreerFichierCLS.place(x=200, y= LIGNEDUBAS)
 
@@ -143,6 +169,26 @@ btnQuit.place(x=400, y= LIGNEDUBAS)
 btnInfo = Button(fenPrincipale,text='?', width =3, command=afficheInfos)
 btnInfo.place(x=600, y= LIGNEDUBAS)
 
+<<<<<<< Updated upstream
+=======
+# btnModif = Button(fenPrincipale,text='Test', width =5, command=testModif)
+# btnModif.place(x=GAUCHE, y= LIGNEDUBAS+30)
+
+
+# lststrMaListe = ListStore(str, str)
+
+# tableau = Treeview(fenPrincipale, columns=('nomfamille', 'prenom', 'da'))
+# tableau.heading('nomfamille', text='Nom de famille')
+# tableau.heading('prenom', text='Prénom')
+# tableau.heading('da', text='DA')
+# tableau['show'] = 'headings' # sans ceci, il y avait une colonne vide à gauche qui a pour rôle d'afficher le paramètre "text" qui peut être spécifié lors du insert
+# tableau.place(x=GAUCHE + 50, y= LIGNEDUBAS+30)
+# tableau.insert('', 'end', iid="45", values=("1", "2", "3"))
+# tableau.insert('', 'end', iid="48", values=("4", "5", "6"))
+# tableau.set_property("editable", True)
+# tableau.editable = True
+
+>>>>>>> Stashed changes
 # démarrage du réceptionnaire d'évènements (boucle principale) :
 fenPrincipale.mainloop()
 

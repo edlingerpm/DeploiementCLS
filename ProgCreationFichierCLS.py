@@ -31,6 +31,16 @@ def CreerFichierTravail(Fichier):
     FF.ecritTexteDansFichier(fichiertravail, LM.getTexteFichierTravail())
     fichiertravail.close ()  # fermeture du fichier
     
+def enteteColonnesFichierIP(fichier):
+    """ Insère la première ligne du fichier des adresses IP
+        ENTREE : rien
+        SORTIE : rien
+        >>> à adapter au format du fichier attendu par l'imprimante d'étiquettes """
+
+    #écriture de la 1ère ligne des noms de colonne au format attendu par l'imprimante d'étiquettes
+    FF.ecritTexteDansFichier(fichier, "Magasin;;Num matériel;;Adresse IP")
+                             
+    
 def enteteColonnes(fichier):
     """ Insère la première ligne du fichier résultat
         ENTREE : rien
@@ -74,12 +84,17 @@ def LanceCreationFichierCLS(fichierTravail, RepResultat):
     # on remplit une matrice avec toutes les lignes du fichier de travail
     maMatrice = FF.getRensDansFichier(fichierTravail)
     
+    # Création du fichier des adresses IP
+    fichierIP = open (RepResultat+"/ListeIPPourEtiquettes.ods", "w")    # Création et ouverture du fichier rempli
+    enteteColonnesFichierIP(fichierIP)        
+    
     # pour toutes les lignes de la matrice
     for ligneFichier in range (1, len(maMatrice)):
         
         # s'il ne s'agit pas d'une ligne vide
         if maMatrice[ligneFichier][0] != "" :
             
+           
             #si on est au début d'un nouveau fichier
             if debutNouveauFichier == True :
                 # on indique que l'on ne sera plus à la création d'un nouveau fichier
@@ -115,6 +130,10 @@ def LanceCreationFichierCLS(fichierTravail, RepResultat):
                 FF.ecritTexteDansFichier(fichierResultat, 
                                          LM.getCLS(XXX, str(numero), xIP, xVille, xSite, 
                                                    xContact, xRD, xRA, xDate))
+                # IP des UC CLS
+                FF.ecritTexteDansFichier(fichierIP, 
+                                         LM.getIP(XXX, str(numero), xIP, True))
+                
                 #Scanners
                 FF.ecritTexteDansFichier(fichierResultat, 
                                          LM.getScanner(XXX, str(numero), xVille, xSite, 
@@ -151,6 +170,10 @@ def LanceCreationFichierCLS(fichierTravail, RepResultat):
                                                          str(numCLS1), str(numCLS2), 
                                                          xIP, xVille, xSite, 
                                                          xContact, xRD, xRA, xDate))
+                # IP des monnayeurs
+                FF.ecritTexteDansFichier(fichierIP, 
+                                         LM.getIP(XXX, str(numero), xIP, False))
+                
                 numCLS = numCLS2 + 1
             
             #Imprimantes pour les stickers
@@ -170,6 +193,7 @@ def LanceCreationFichierCLS(fichierTravail, RepResultat):
         # Si on a atteind la fin du fichier
         if ligneFichier == len(maMatrice)-1 :  
             fichierResultat.close ()  # fermeture du fichier
+            fichierIP.close ()  # fermeture du fichier
             
     FF.messageInfo("Succès", "L'opération s'est déroulée avec succès.")
     

@@ -4,6 +4,21 @@ Created on Fri Jun 19 22:06:08 2020
 
 @author: Pierre-Marie EDLINGER
 """
+def getIP(XXX, num, xIP, CLS):
+    machine = ""
+    ip = ""
+    numero = num
+    if CLS==True: # Si c'est une UC de CLS
+        ip = str(int(num)+10) # l'adresse IP est toujours le numéro de caisse + 10 pour les CLS
+        machine = "CLS"
+    else: # Si c'est un monnayeur
+        ip = num
+        numero = str(int(num)-44)
+        machine = "Monnayeur"
+    
+    texte = ""
+    texte = texte + "Mag "+XXX+"; - ;"+ machine +" n° "+numero+"; - ;IP: 172.24."+ xIP+"."+ip
+    return texte
 
 def getScanner(XXX, num, xVille, xSite, xContact, xRD, xRA, xDate):
     texte = ""
