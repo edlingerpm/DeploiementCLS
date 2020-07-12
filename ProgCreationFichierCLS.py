@@ -111,7 +111,7 @@ def LanceCreationFichierCLS(fichierTravail, RepResultat):
             
             #On initialise tous les paramètres
             XXX = maMatrice[ligneFichier][0] 
-            xIP = maMatrice[ligneFichier][1]
+            xIP = FF.getIP(maMatrice[ligneFichier][1])
             xVille = maMatrice[ligneFichier][2]
             xSite = maMatrice[ligneFichier][3]
             xContact = maMatrice[ligneFichier][4] 

@@ -84,6 +84,16 @@ def getRensDansFichier(nomFichier):
             matrice.append (l)             # on ajoute la ligne à la matrice
     return matrice
     
+def getIP(adresseIPTotale): # IP sous  forme de texte "172.24.X.Y"
+    IPCourt = ""
+    listeDecoupee = adresseIPTotale.split (".")  # on découpe l'IP en 4 parties
+    
+    # si il y a bien au moins 3 parties
+    if len(listeDecoupee) > 1:
+        IPCourt = listeDecoupee[2]
+    else:
+        IPCourt = listeDecoupee[0]
+    return IPCourt
 
 def getFichier(repInit = "./", 
                titre = "Choix d'un fichier", 
