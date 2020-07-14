@@ -80,7 +80,8 @@ def enteteColonnes(fichier):
 
 def LanceCreationFichierCLS(fichierTravail, RepResultat):
     global debutNouveauFichier
-    
+    numFichier = 1
+    texteNumFichier = ""
     # on remplit une matrice avec toutes les lignes du fichier de travail
     maMatrice = FF.getRensDansFichier(fichierTravail)
     
@@ -93,15 +94,26 @@ def LanceCreationFichierCLS(fichierTravail, RepResultat):
         
         # s'il ne s'agit pas d'une ligne vide
         if maMatrice[ligneFichier][0] != "" :
-            
-           
+                       
             #si on est au début d'un nouveau fichier
             if debutNouveauFichier == True :
                 # on indique que l'on ne sera plus à la création d'un nouveau fichier
                 debutNouveauFichier = False
                 # on crée et ouvre un nouveau fichier qui portera
                 #le numéro du 1er magasin à traiter
-                fichierResultat = open (RepResultat+"/"+NOMFICHIERRESULTAT+maMatrice[ligneFichier][0]+EXTENSIONFICHIER, "w")    # Création et ouverture du fichier rempli
+                
+                # traitement du numéro de fichier
+                # si < 10 alors on rajoute 0
+                if numFichier < 10:
+                    texteNumFichier = "0"+ str(numFichier) + " - "
+                else:
+                    texteNumFichier = str(numFichier)+ " - "
+                    
+                # Création et ouverture du fichier rempli
+                fichierResultat = open (RepResultat+"/"+texteNumFichier+NOMFICHIERRESULTAT+maMatrice[ligneFichier][0]+EXTENSIONFICHIER, "w")
+                
+                # incrémentation du numéro de fichier
+                numFichier = numFichier + 1
                 
                 # on rempli l'entête des colonnes
                 enteteColonnes(fichierResultat)
