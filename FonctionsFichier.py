@@ -83,6 +83,54 @@ def getRensDansFichier(nomFichier):
             l = s.split (";")           # on découpe en colonnes
             matrice.append (l)             # on ajoute la ligne à la matrice
     return matrice
+
+
+def getRensDansFichierCaisses(nomFichier):
+    
+    # création des listes vides,
+    matrice = []     
+    matriceFinale = []    
+                    
+    with open (nomFichier, "r") as fichier:  # ouverture du fichier en mode lecture
+        for ligne in fichier :                   # pour toutes les lignes du fichier
+            s = ligne.strip ("\n\r")       # on enlève les caractères de fin de ligne
+            l = s.split (";")           # on découpe en colonnes
+            matrice.append (l)             # on ajoute la ligne à la matrice
+            
+            #  Si c'est la 1ère ligne, je garde la date en mémoire
+            # if ligne == 0:
+            #     matriceFinale.append(l[2])
+            #     print ("date = "+l[2])
+    
+    # print(matrice)
+    
+    matriceFinale.append(matrice[0][2])
+    for i in range(1, len(matrice)):
+        chiffre = getNumFormatTexte(matrice[i][1])
+        magasin = matrice[i][0]
+        
+        matriceFinale.append('impcai'+magasin+'fm'+chiffre)
+        matriceFinale.append('tiroircais'+magasin+'fm'+chiffre)
+        matriceFinale.append('ecrancais'+magasin+'fm'+chiffre)
+        matriceFinale.append('c'+magasin+'fm'+chiffre)
+        matriceFinale.append('scannercais'+magasin+'fm'+chiffre)
+        matriceFinale.append('affichclicais'+magasin+'fm'+chiffre)
+        matriceFinale.append('douchette'+magasin+'fm'+chiffre)
+        matriceFinale.append('douchettecais'+magasin+'fm'+chiffre)
+    
+    return matriceFinale
+
+
+def getNumFormatTexte(num):
+    numeric = int(num)
+    resultat = ""
+
+    if numeric < 10:
+        resultat = "0"+num
+    else:
+        resultat = num
+    
+    return resultat
     
 def getIP(adresseIPTotale): # IP sous  forme de texte "172.24.X.Y"
     IPCourt = ""
@@ -132,7 +180,7 @@ def getRepertoire(repInit = "./", titre = "Choix d'un répertoire"):
 
 def getOuEnregistrerFichier(repInit = "./", 
                             titre = "Enregistrer un fichier", 
-                            typeExtensions = {("Fichiers ODS","*.ods"),("Fichiers CSV","*.csv"),("Tous","*.*")}):
+                            typeExtensions = {("Tous","*.*"), ("Fichiers CSV","*.csv"), ("Fichiers ODS","*.ods")}):
     """ Fenêtre pour choisir où enregistrer un fichier et demande de confirmation s'il existe déjà
         ENTREE : - le répertoire initial où chercher ex: "D:/"
                  - le titre de la fenêtre ex : "Choix du fichier"

@@ -22,6 +22,9 @@ def choixFicDeTravail():
     tF = eval(champTC.get())
     varTF.set(str(tF*1.8 +32))
     """
+   
+def choixFicCaisse():
+    varNomFicCaisses.set(FF.getFichier())
     
 def choixRepFinal():
     varNomRep.set(FF.getRepertoire())
@@ -60,6 +63,35 @@ def creerFichiersCLS():
                 choixFicDeTravail()
     except :
         FF.messageWarning("Erreur", "Une erreur est survenue lors de la création du ou des fichier(s) à importer...")
+
+def creerFichierSupprimeCaisse():
+    try:
+        if (varNomFicTravail.get() == ""):
+            FF.messageWarning("Renseignements manquants", "Choisissez le fichier de travail.")
+            choixFicDeTravail()
+        else :
+            if FF.verifieExistanceFichier(varNomFicTravail.get()):
+                if (varNomRep.get() == ""):
+                    FF.messageWarning("Renseignements manquants", "Choisissez un répertoire où placer le(s) fichier(s) à importer dans IBM Lotus.")
+                    choixRepFinal()
+                else:
+                    if FF.verifieExistanceRepertoire(varNomRep.get()):
+                        
+                        if (varNomFicCaisses.get() == ""):
+                            FF.messageWarning("Renseignements manquants", "Choisissez le fichier des caisses à rendre inactives.")
+                            choixFicCaisse()
+                        else :
+                            if FF.verifieExistanceFichier(varNomFicCaisses.get()):
+                                Prog.LanceCreationFichierSupprimeCaisses(varNomFicCaisses.get(), varNomFicTravail.get(), varNomRep.get())
+                            else:
+                                choixFicCaisse()
+                    else:
+                        choixRepFinal()
+            else:
+                choixFicDeTravail()
+    except :
+        FF.messageWarning("Erreur", "Une erreur est survenue lors de la création du fichier pour rendre des caisses inactives...")
+
 
 def afficheInfos():
     global fenPrincipale
@@ -110,7 +142,7 @@ try: #sert à éviter un message d'erreur si le fichier icone n'existe pas
 except : None
 
 GAUCHE = 10
-LARGEURBOUTONS = 25
+LARGEURBOUTONS = 15
 LIGNEDUBAS = 100
 
 # création des widgets "enfants" :
@@ -131,7 +163,7 @@ entr2.place(x=GAUCHE, y= 25)
 
 # ---- Bouton ------------------
 btnChoixRep = Button(fenPrincipale, text='...', width =2, command=choixRepFinal)
-btnChoixRep.place(x=620, y= 25)
+btnChoixRep.place(x=620, y= 23)
 #*********************************************************
 
 # ---- Gestion de la zone "fichier de travail"
@@ -141,13 +173,29 @@ lblFic2.place(x=GAUCHE, y=50)
 
 # ---- zone de texte
 varNomFicTravail = StringVar()
-entr1 = Entry(fenPrincipale, textvariable = varNomFicTravail, width =100) #    varTC.set("")
+entr1 = Entry(fenPrincipale, textvariable = varNomFicTravail, width =45) #    varTC.set("")
 varNomFicTravail.set("")
 entr1.place(x=GAUCHE, y= 70)
 
 # ---- Bouton ------------------
 btnFicTravail = Button(fenPrincipale, text='...', width =2, command=choixFicDeTravail)
-btnFicTravail.place(x=620, y= 70)
+btnFicTravail.place(x=289, y= 68)
+#*********************************************************
+
+# ---- Gestion de la zone "fichier des caisses"
+# ---- Label
+lblFic3 = Label(fenPrincipale, text = 'Choix du fichier des caisses à rendre inactives :')
+lblFic3.place(x=GAUCHE +330, y=50)
+
+# ---- zone de texte
+varNomFicCaisses = StringVar()
+entr2 = Entry(fenPrincipale, textvariable = varNomFicCaisses, width =45) #    varTC.set("")
+varNomFicCaisses.set("")
+entr2.place(x=GAUCHE+330, y= 70)
+
+# ---- Bouton ------------------
+btnFicCaisse = Button(fenPrincipale, text='...', width =2, command=choixFicCaisse)
+btnFicCaisse.place(x=620, y= 68)
 #*********************************************************
 
 btnCreerFicTravail = Button(fenPrincipale, text='Créer un modèle', width =LARGEURBOUTONS, command=creerFichierModele)
@@ -155,15 +203,21 @@ btnCreerFicTravail.place(x=GAUCHE, y= LIGNEDUBAS)
 
 btnCreerFichierCLS = Button(fenPrincipale, 
                             text='Créer le(s) fichier(s) à importer', 
-                            width =LARGEURBOUTONS + 5, 
+                            width =LARGEURBOUTONS + 15, 
                             command=creerFichiersCLS)
-btnCreerFichierCLS.place(x=200, y= LIGNEDUBAS)
+btnCreerFichierCLS.place(x=115, y= LIGNEDUBAS)
 
-btnQuit = Button(fenPrincipale,text='Quitter', width =LARGEURBOUTONS, command=fermeTout)
-btnQuit.place(x=400, y= LIGNEDUBAS)
+btnSupprimerCaisses = Button(fenPrincipale, 
+                            text='Créer le fichier pour supprimer caisse(s)', 
+                            width =LARGEURBOUTONS + 20, 
+                            command=creerFichierSupprimeCaisse)
+btnSupprimerCaisses.place(x=310, y= LIGNEDUBAS)
+
+btnQuit = Button(fenPrincipale,text='Quitter', width =LARGEURBOUTONS -5, command=fermeTout)
+btnQuit.place(x=535, y= LIGNEDUBAS)
 
 btnInfo = Button(fenPrincipale,text='?', width =3, command=afficheInfos)
-btnInfo.place(x=600, y= LIGNEDUBAS)
+btnInfo.place(x=615, y= LIGNEDUBAS)
 
 
 # btnModif = Button(fenPrincipale,text='Test', width =5, command=testModif)

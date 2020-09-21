@@ -84,7 +84,7 @@ def getBalance(XXX, num, xVille, xSite, xContact, xRD, xRA, xDate):
     texte = texte + ";balancecls"+XXX+"fm"+num+";Balance Caisse Libre Service N° "+num
     texte = texte + "- MATCH - "+XXX+" - "+xSite
     texte = texte + ";Actif (en parc);\\\\match-supermarket.com\\DSI\\DSI_Photos_Mag_FR\\Photos\\France\\"
-    texte = texte + XXX+";Production;;France;Caisses;ITAB;Flintab  AB;1212x120-03;;Physique;France;"
+    texte = texte + XXX+";Production;;France;Caisses;ITAB;Flintab  AB;;;Physique;France;"
     texte = texte + xVille+";F0"+XXX+";"+xSite+";;;"+xContact+";;;5 Normal;"
     texte = texte + xRD+";"+xRA+";Match;France;;"+xDate+";;;ITAB;;;;;;;;;\"Ping;VNC\";;;;;;;;;Externe;ITAB;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;"
     return texte
@@ -111,5 +111,4 @@ def getImprimanteStickers(XXX, num, xVille, xSite, xContact, xRD, xRA, xDate):
 
 def getTexteFichierTravail():
     return "Numéro du magasin;IP Magasin;Nom de la ville;Nom du site;Contact sur le site;Responsable D;Responsable A;Date de mise à jour;Nbr CLS;Nbr Monnayeurs;Nbr Imprimantes Stickers"
-    
     

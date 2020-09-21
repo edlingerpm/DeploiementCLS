@@ -9,7 +9,7 @@ import LigneParMateriel as LM
 
 # Initialisation des variables globales
 NOMFICHIERRESULTAT = "Resultat"
-EXTENSIONFICHIER = ".ods"
+EXTENSIONFICHIER = ".csv"
 fichierResultat = None
 XXX = "" 
 xIP = ""
@@ -77,7 +77,49 @@ def enteteColonnes(fichier):
 
 
 ### Début programme **********************************************************
+def LanceCreationFichierSupprimeCaisses(fichierCaisses, fichierTravail, RepResultat): 
+    cpt = 0
+    # on remplit une matrice avec toutes les noms des matériels à rechercher 
+    # du fichier caisses à rendre inactives
+    listeNomsMateriels = FF.getRensDansFichierCaisses(fichierCaisses)
+    dateARetenir = listeNomsMateriels[0]
+    
+    del listeNomsMateriels[0]
+    # print(listeNomsMateriels)
+    
+    # création et ouverture du fichier des caisses à supprimer
+    fichierCaissesARendreInactives = open (RepResultat+"/FichiersCaissesARendreInactives.csv", "w")    # Création et ouverture du fichier rempli "+ listeNomsMateriels[0] +"
+    # on rempli l'entête des colonnes
+    enteteColonnes(fichierCaissesARendreInactives)
+    
+    # ouverture fichier à trier
+    with open (fichierTravail, "r") as fichier:  # ouverture du fichier en mode lecture
+        for ligne in fichier :                   # pour toutes les lignes du fichier
+            s = ligne.strip ("\n\r")       # on enlève les caractères de fin de ligne
+            l = s.split (";")           # on découpe en colonnes
+            if l[1].lower() in listeNomsMateriels: # si le nom du matériel est dans notre liste
+                FF.ecritTexteDansFichier(fichierCaissesARendreInactives, transformeLigne(l, dateARetenir)) # on ajoute la ligne dans le fichier final
+                cpt = cpt +1 # on incrémente le compteur
+                # print("CPT = " + str(cpt))
+    
+    fichierCaissesARendreInactives.close ()  # fermeture du fichier
+            
+    FF.messageInfo("Succès", "L'opération s'est déroulée avec succès. "+str(cpt)+ " lignes insérées.")       
 
+def transformeLigne(liste, date):
+    nouveauTexte = ""
+    for i in range(len(liste)):
+        if i == 3 :
+            nouveauTexte = nouveauTexte + "Inactif (hors parc);"
+        else :
+            if i == 29 :
+                nouveauTexte = nouveauTexte + date +";"
+            else :
+                nouveauTexte = nouveauTexte + liste[i]+";"
+    
+    return nouveauTexte[0:len(nouveauTexte)-1]
+        
+    
 def LanceCreationFichierCLS(fichierTravail, RepResultat):
     global debutNouveauFichier
     numFichier = 1
@@ -86,7 +128,7 @@ def LanceCreationFichierCLS(fichierTravail, RepResultat):
     maMatrice = FF.getRensDansFichier(fichierTravail)
     
     # Création du fichier des adresses IP
-    fichierIP = open (RepResultat+"/ListeIPPourEtiquettes.ods", "w")    # Création et ouverture du fichier rempli
+    fichierIP = open (RepResultat+"/ListeIPPourEtiquettes.csv", "w")    # Création et ouverture du fichier rempli
     enteteColonnesFichierIP(fichierIP)        
     
     # pour toutes les lignes de la matrice
