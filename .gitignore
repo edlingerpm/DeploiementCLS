@@ -1,3 +1,11 @@
 *.ods
 *.csv
 *.txt
+<<<<<<< HEAD
+=======
+*.spec
+*.exe
+dist
+build
+__pycache__
+>>>>>>> Graphique

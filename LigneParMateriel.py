@@ -4,18 +4,33 @@ Created on Fri Jun 19 22:06:08 2020
 
 @author: Pierre-Marie EDLINGER
 """
+def getIP(XXX, num, xIP, CLS):
+    machine = ""
+    ip = ""
+    numero = num
+    if CLS==True: # Si c'est une UC de CLS
+        ip = str(int(num)+10) # l'adresse IP est toujours le numéro de caisse + 10 pour les CLS
+        machine = "CLS"
+    else: # Si c'est un monnayeur
+        ip = num
+        numero = str(int(num)-44)
+        machine = "Monnayeur"
+    
+    texte = ""
+    texte = texte + "Mag "+XXX+"; - ;"+ machine +" n° "+numero+"; - ;IP: 172.24."+ xIP+"."+ip
+    return texte
 
 def getScanner(XXX, num, xVille, xSite, xContact, xRD, xRA, xDate):
     texte = ""
     texte = texte + ";scannercais"+XXX+"fm"+num+";Scanner CLS N°"+num
     texte = texte + " de F0"+XXX
     texte = texte + ";Actif (en parc);\\\\match-supermarket.com\\DSI\\DSI_Photos_Mag_FR\\Photos\\France\\"
-    texte = texte + XXX+";Production;;France;Caisses;Magellan;Bi-optique 9800i;;;Physique;France;"
+    texte = texte + XXX+";Production;;France;Caisses;Magellan;Bi-optique 9800i (9803);;;Physique;France;"
     texte = texte + xVille+";F0"+XXX+";"+xSite+";;;"+xContact+";;;5 Normal;"
     texte = texte + xRD+";"+xRA+";Match;France;;"+xDate
     texte = texte + ";;;PEBIX;;;;;;;;;;;;;;;;;;Externe;PEBIX;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;"
     return texte
-    
+
 def getMonnayeur(XXX, num, numCLS1, numCLS2, xIP, xVille, xSite, xContact, xRD, xRA, xDate):
     texte = ""
     texte = texte + ";cmonnayeur"+XXX+"fm"+num+";Monnayeur CLS N°"+numCLS1
@@ -69,7 +84,7 @@ def getBalance(XXX, num, xVille, xSite, xContact, xRD, xRA, xDate):
     texte = texte + ";balancecls"+XXX+"fm"+num+";Balance Caisse Libre Service N° "+num
     texte = texte + "- MATCH - "+XXX+" - "+xSite
     texte = texte + ";Actif (en parc);\\\\match-supermarket.com\\DSI\\DSI_Photos_Mag_FR\\Photos\\France\\"
-    texte = texte + XXX+";Production;;France;Caisses;ITAB;Flintab  AB;1212x120-03;;Physique;France;"
+    texte = texte + XXX+";Production;;France;Caisses;ITAB;Flintab  AB;;;Physique;France;"
     texte = texte + xVille+";F0"+XXX+";"+xSite+";;;"+xContact+";;;5 Normal;"
     texte = texte + xRD+";"+xRA+";Match;France;;"+xDate+";;;ITAB;;;;;;;;;\"Ping;VNC\";;;;;;;;;Externe;ITAB;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;"
     return texte
@@ -94,3 +109,17 @@ def getImprimanteStickers(XXX, num, xVille, xSite, xContact, xRD, xRA, xDate):
     texte = texte + ";;;BEARCOD;;;;;;;;;;;;;;;;;;Externe;BEARCOD;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;"
     return texte
 
+def getPortillon(XXX, xIP, xVille, xSite, xContact, xRD, xRA, xDate):
+    texte = ""
+    texte = texte + ";portiquecls"+XXX+"fm01;Portique Caisse Libre Service - MATCH - "+XXX+" - " + xSite
+    texte = texte + ";Actif (en parc);\\\\match-supermarket.com\\DSI\\DSI_Photos_Mag_FR\\Photos\\France\\"
+    texte = texte + XXX+";Production;;France;Caisses;ITAB;portique;;;Physique;France;"
+    texte = texte + xVille+";F0"+XXX+";"+xSite+";;;"+xContact+";;;5 Normal;"
+    texte = texte + xRD+";"+xRA+";Match;France;;"+xDate+";;;ITAB;;;;172.24."
+    texte = texte + xIP+".50;255.255.255.0;172.24."+xIP
+    texte = texte + ".254;;;\"Ping;VNC\";;;;;;;;;Externe;ITAB;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;"
+    return texte
+
+def getTexteFichierTravail():
+    return "Numéro du magasin;IP Magasin;Nom de la ville;Nom du site;Contact sur le site;Responsable D;Responsable A;Date de mise à jour;Nbr CLS;Nbr Monnayeurs;Nbr Imprimantes Stickers"
+    
