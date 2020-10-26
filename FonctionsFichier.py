@@ -89,7 +89,9 @@ def getRensDansFichierCaisses(nomFichier):
     
     # création des listes vides,
     matrice = []     
-    matriceFinale = []    
+    matriceSupp = []
+    matriceMag = []
+    matriceResultat = []
                     
     with open (nomFichier, "r") as fichier:  # ouverture du fichier en mode lecture
         for ligne in fichier :                   # pour toutes les lignes du fichier
@@ -104,22 +106,55 @@ def getRensDansFichierCaisses(nomFichier):
     
     # print(matrice)
     
-    matriceFinale.append(matrice[0][2])
+    matriceSupp.append(matrice[0][2]) # date de modification
     for i in range(1, len(matrice)):
-        chiffre = getNumFormatTexte(matrice[i][1])
-        magasin = matrice[i][0]
-        
-        matriceFinale.append('impcai'+magasin+'fm'+chiffre)
-        matriceFinale.append('tiroircais'+magasin+'fm'+chiffre)
-        matriceFinale.append('ecrancais'+magasin+'fm'+chiffre)
-        matriceFinale.append('c'+magasin+'fm'+chiffre)
-        matriceFinale.append('scannercais'+magasin+'fm'+chiffre)
-        matriceFinale.append('affichclicais'+magasin+'fm'+chiffre)
-        matriceFinale.append('douchette'+magasin+'fm'+chiffre)
-        matriceFinale.append('douchettecais'+magasin+'fm'+chiffre)
+        if matrice[i][0] != "" :
+            chiffre = getNumFormatTexte(matrice[i][1])
+            magasin = matrice[i][0]
+            
+            matriceSupp.append('impcai'+magasin+'fm'+chiffre)
+            matriceSupp.append('tiroircais'+magasin+'fm'+chiffre)
+            matriceSupp.append('ecrancais'+magasin+'fm'+chiffre)
+            matriceSupp.append('c'+magasin+'fm'+chiffre)
+            matriceSupp.append('scannercais'+magasin+'fm'+chiffre)
+            matriceSupp.append('affichclicais'+magasin+'fm'+chiffre)
+            matriceSupp.append('douchette'+magasin+'fm'+chiffre)
+            matriceSupp.append('douchettecais'+magasin+'fm'+chiffre)
+            
+            # On garde laliste des magasins
+            if "F0" + magasin not in matriceMag:
+                matriceMag.append("F0" + magasin)
     
-    return matriceFinale
+    matriceResultat.append(matriceSupp)
+    matriceResultat.append(matriceMag)
+   
+    return matriceResultat
 
+# def getRensDansFichierCaissesPourChangerScanners(nomFichier):
+    
+#     # création des listes vides,
+#     matrice = []     
+#     matriceFinale = []    
+                    
+#     with open (nomFichier, "r") as fichier:  # ouverture du fichier en mode lecture
+#         for ligne in fichier :                   # pour toutes les lignes du fichier
+#             s = ligne.strip ("\n\r")       # on enlève les caractères de fin de ligne
+#             l = s.split (";")           # on découpe en colonnes
+#             matrice.append (l)             # on ajoute la ligne à la matrice
+         
+#     # print(matrice)
+    
+#     matriceFinale.append(matrice[0][2]) # date de modification
+#     for i in range(1, len(matrice)):
+#         if matrice[i][0] != "" :
+#             chiffre = getNumFormatTexte(matrice[i][1])
+#             magasin = matrice[i][0]
+            
+
+#             # matriceFinale.append('scannercais'+magasin+'fm'+chiffre)
+
+    
+#     return matriceFinale
 
 def getNumFormatTexte(num):
     numeric = int(num)
@@ -145,7 +180,7 @@ def getIP(adresseIPTotale): # IP sous  forme de texte "172.24.X.Y"
 
 def getFichier(repInit = "./", 
                titre = "Choix d'un fichier", 
-               typeExtensions = {("Fichiers ODS","*.ods"),("Fichiers CSV","*.csv"),("Tous","*.*")}):
+               typeExtensions = {("Fichiers CSV","*.csv"),("Tous","*.*")}):
     """ Fenêtre pour choisir un fichier
         ENTREE : - le répertoire initial où chercher ex: "D:/"
                  - le titre de la fenêtre ex : "Choix du fichier"
@@ -184,7 +219,7 @@ def getOuEnregistrerFichier(repInit = "./",
     """ Fenêtre pour choisir où enregistrer un fichier et demande de confirmation s'il existe déjà
         ENTREE : - le répertoire initial où chercher ex: "D:/"
                  - le titre de la fenêtre ex : "Choix du fichier"
-                 - les extensions à appliquer ex: {("Fichier ODS","*.ods"),("Fichier CSV","*.csv"),("Tous","*.*")}
+                 - les extensions à appliquer ex: {("Fichier CSV","*.csv"),("Tous","*.*")}
         SORTIE : chemin complet du répertoire selectionné ou chaine vide si aucun n'est selectionné """
         
     fen = Tk()

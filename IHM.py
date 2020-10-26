@@ -62,7 +62,7 @@ def creerFichiersCLS():
             else:
                 choixFicDeTravail()
     except :
-        FF.messageWarning("Erreur", "Une erreur est survenue lors de la création du ou des fichier(s) à importer...")
+        FF.messageWarning("Erreur", "Une erreur est survenue lors de la création du ou des fichier(s) à importer.... Vérifiez qu'il n'y ait pas un Alt+Tab dans un des fichiers.")
 
 def creerFichierSupprimeCaisse():
     try:
@@ -90,7 +90,7 @@ def creerFichierSupprimeCaisse():
             else:
                 choixFicDeTravail()
     except :
-        FF.messageWarning("Erreur", "Une erreur est survenue lors de la création du fichier pour rendre des caisses inactives...")
+        FF.messageWarning("Erreur", "Une erreur est survenue lors de la création du fichier pour rendre des caisses inactives... Vérifiez qu'il n'y ait pas un Alt+Tab dans un des fichiers.")
 
 
 def afficheInfos():

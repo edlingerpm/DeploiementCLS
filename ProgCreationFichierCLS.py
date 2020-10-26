@@ -79,32 +79,65 @@ def enteteColonnes(fichier):
 ### Début programme **********************************************************
 def LanceCreationFichierSupprimeCaisses(fichierCaisses, fichierTravail, RepResultat): 
     cpt = 0
+    cpt2 = 0
+    cpt3 = 0
     # on remplit une matrice avec toutes les noms des matériels à rechercher 
     # du fichier caisses à rendre inactives
-    listeNomsMateriels = FF.getRensDansFichierCaisses(fichierCaisses)
+    matrice = FF.getRensDansFichierCaisses(fichierCaisses)
+
+    listeNomsMateriels = matrice[0]
+    listeMagasins = matrice[1]
     dateARetenir = listeNomsMateriels[0]
     
+    # print(listeMagasins)
     del listeNomsMateriels[0]
     # print(listeNomsMateriels)
-    
+    # print("ICI20")
     # création et ouverture du fichier des caisses à supprimer
     fichierCaissesARendreInactives = open (RepResultat+"/FichiersCaissesARendreInactives.csv", "w")    # Création et ouverture du fichier rempli "+ listeNomsMateriels[0] +"
     # on rempli l'entête des colonnes
     enteteColonnes(fichierCaissesARendreInactives)
-    
+    # print("ICI21")
     # ouverture fichier à trier
     with open (fichierTravail, "r") as fichier:  # ouverture du fichier en mode lecture
         for ligne in fichier :                   # pour toutes les lignes du fichier
             s = ligne.strip ("\n\r")       # on enlève les caractères de fin de ligne
             l = s.split (";")           # on découpe en colonnes
+            # print(len(l))
+            # remplissage des lignes concernant les caisses à supprimer
             if l[1].lower() in listeNomsMateriels: # si le nom du matériel est dans notre liste
                 FF.ecritTexteDansFichier(fichierCaissesARendreInactives, transformeLigne(l, dateARetenir)) # on ajoute la ligne dans le fichier final
                 cpt = cpt +1 # on incrémente le compteur
-                # print("CPT = " + str(cpt))
-    
+            # print("ICI3")    
+            # remplissage des lignes des caisses dont il faut changer les scanners
+            # s'il s'agit d'un scanner
+            
+            # ça ça sert à faire un test pour trouver où il y a une erreur dans le fichier souvent un Alt+Tab 
+            # print(l[0])
+            # cpt3 = cpt3 +1
+            # print(cpt3)
+                
+            if l[16] in listeMagasins: # si le magasin est dans notre liste de magasins
+                # on vérifie qu'il s'agit bien d'un scanner 11 caractères
+                # print(l[1][0:10].lower())
+                if l[1][0:11].lower() == "scannercais":
+                    # cpt2 = cpt2 +1 # on incrémente le compteur
+                    #  il ne faut pas que ce soit une caisse qu'on supprime
+                    if l[1].lower() not in listeNomsMateriels:
+                        FF.ecritTexteDansFichier(fichierCaissesARendreInactives, transformeLignesScanner(l, dateARetenir)) # on ajoute la ligne dans le fichier final
+                        cpt2 = cpt2 +1 # on incrémente le compteur
+                        
+            ######################################################          
+            # on prend les scanners des CLS mais normalement il n'y en a pas
+            # et s'il y en a, cela ne fera aucune modif pour eux
+            ###################################################### 
+                # None
+            # print("ICI4")
     fichierCaissesARendreInactives.close ()  # fermeture du fichier
             
-    FF.messageInfo("Succès", "L'opération s'est déroulée avec succès. "+str(cpt)+ " lignes insérées.")       
+    FF.messageInfo("Succès", "L'opération s'est déroulée avec succès. "+ str(cpt)
+                   + " lignes insérées pour suppression de caisse et "+ str(cpt2)
+                   +" lignes pour changement de scanner.")       
 
 def transformeLigne(liste, date):
     nouveauTexte = ""
@@ -118,7 +151,28 @@ def transformeLigne(liste, date):
                 nouveauTexte = nouveauTexte + liste[i]+";"
     
     return nouveauTexte[0:len(nouveauTexte)-1]
-        
+
+def transformeLignesScanner(liste, date):
+    nouveauTexte = ""
+    for i in range(len(liste)):
+        if i == 9 :
+            if liste[9] == "Datalogic" and liste[10] == "VS 2200":
+                nouveauTexte = nouveauTexte + "Datalogic;3200 VSI;"
+            else:
+                if liste[9] == "Datalogic" and (liste[10] == "8400 Magellan PSC" or liste[10] == "8201 Magellan PSC"):
+                    nouveauTexte = nouveauTexte + "Magellan;Bi-optique 9800i (9801);"
+                else :
+                    nouveauTexte = nouveauTexte + liste[i]+";"+liste[i+1]+";"
+        else :
+            if i == 29 :
+                nouveauTexte = nouveauTexte + date +";"
+            else :
+                if i == 10 : 
+                    None
+                else :
+                    nouveauTexte = nouveauTexte + liste[i]+";"
+    
+    return nouveauTexte[0:len(nouveauTexte)-1]
     
 def LanceCreationFichierCLS(fichierTravail, RepResultat):
     global debutNouveauFichier
@@ -237,7 +291,10 @@ def LanceCreationFichierCLS(fichierTravail, RepResultat):
                                          LM.getImprimanteStickers(XXX, str(numero), 
                                                                   xVille, xSite, 
                                                                   xContact, xRD, 
-                                                                  xRA, xDate))    
+                                                                  xRA, xDate))
+            # 1 portillon par magasin
+            FF.ecritTexteDansFichier(fichierResultat, 
+                                         LM.getPortillon(XXX, xIP, xVille, xSite, xContact, xRD, xRA, xDate))
                 
         else : # si la 1ère cellule de la ligne n'est pas vide
             # on indique que l'on ne sera plus à la création d'un nouveau fichier

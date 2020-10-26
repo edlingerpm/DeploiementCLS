@@ -25,7 +25,7 @@ def getScanner(XXX, num, xVille, xSite, xContact, xRD, xRA, xDate):
     texte = texte + ";scannercais"+XXX+"fm"+num+";Scanner CLS N°"+num
     texte = texte + " de F0"+XXX
     texte = texte + ";Actif (en parc);\\\\match-supermarket.com\\DSI\\DSI_Photos_Mag_FR\\Photos\\France\\"
-    texte = texte + XXX+";Production;;France;Caisses;Magellan;Bi-optique 9800i;;;Physique;France;"
+    texte = texte + XXX+";Production;;France;Caisses;Magellan;Bi-optique 9800i (9803);;;Physique;France;"
     texte = texte + xVille+";F0"+XXX+";"+xSite+";;;"+xContact+";;;5 Normal;"
     texte = texte + xRD+";"+xRA+";Match;France;;"+xDate
     texte = texte + ";;;PEBIX;;;;;;;;;;;;;;;;;;Externe;PEBIX;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;"
@@ -107,6 +107,17 @@ def getImprimanteStickers(XXX, num, xVille, xSite, xContact, xRD, xRA, xDate):
     texte = texte + xVille+";F0"+XXX+";"+xSite+";;;"+xContact+";;;5 Normal;"
     texte = texte + xRD+";"+xRA+";Match;France;;"+xDate
     texte = texte + ";;;BEARCOD;;;;;;;;;;;;;;;;;;Externe;BEARCOD;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;"
+    return texte
+
+def getPortillon(XXX, xIP, xVille, xSite, xContact, xRD, xRA, xDate):
+    texte = ""
+    texte = texte + ";portiquecls"+XXX+"fm01;Portique Caisse Libre Service - MATCH - "+XXX+" - " + xSite
+    texte = texte + ";Actif (en parc);\\\\match-supermarket.com\\DSI\\DSI_Photos_Mag_FR\\Photos\\France\\"
+    texte = texte + XXX+";Production;;France;Caisses;ITAB;portique;;;Physique;France;"
+    texte = texte + xVille+";F0"+XXX+";"+xSite+";;;"+xContact+";;;5 Normal;"
+    texte = texte + xRD+";"+xRA+";Match;France;;"+xDate+";;;ITAB;;;;172.24."
+    texte = texte + xIP+".50;255.255.255.0;172.24."+xIP
+    texte = texte + ".254;;;\"Ping;VNC\";;;;;;;;;Externe;ITAB;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;"
     return texte
 
 def getTexteFichierTravail():
