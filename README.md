@@ -4,4 +4,4 @@
  
  Il y a un bouton pour créer le fichier modèle à fournir.
  Un autre bouton sert à lancer le traitement.
- Si les champs nécessaires sont manquants, il est automatiquement proposé de rechercher directement via un interface graphique.
+ Si les champs nécessaires sont manquants, il est automatiquement proposé de rechercher directement via une interface graphique.
